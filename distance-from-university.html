@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Far From University?</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f6e56">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<style>
+  :root{
+    --ink:#1f2f3f;
+    --paper:#d4d4d4;
+    --line:#d8d2c4;
+    --accent:#2b6e77;
+    --accent-soft:#e4eeee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Georgia','Times New Roman',serif;
+    background:var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 20px;
+  }
+  .panel{
+    max-width:560px;
+    width:100%;
+    background:#b6acac;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:30px 34px;
+  }
+  h1{
+    font-size:24px;
+    font-weight:600;
+    margin-top:0;
+    margin-bottom:6px;
+    font-family:Arial, sans-serif;
+    color:var(--accent);
+    border-bottom:2px solid var(--accent-soft);
+    padding-bottom:10px;
+  }
+  p.subtitle{
+    font-family:Arial, sans-serif;
+    font-size:13px;
+    color:#918b8b;
+    margin:14px 0 20px;
+  }
+  .row{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px;
+    margin-bottom:16px;
+    font-family:Arial, sans-serif;
+    font-size:15px;
+  }
+  .row label{
+    min-width:170px;
+  }
+  input[type="number"]{
+    flex:1 1 140px;
+    padding:8px 10px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    font-size:15px;
+  }
+  button{
+    padding:9px 20px;
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    border-radius:4px;
+    font-size:15px;
+    cursor:pointer;
+    font-family:Arial, sans-serif;
+  }
+  button:hover{
+    background:#215058;
+  }
+  .error-msg{
+    color:#a32d2d;
+    font-family:Arial, sans-serif;
+    font-size:13px;
+    margin-top:-8px;
+    margin-bottom:14px;
+    display:none;
+  }
+  .result{
+    margin-top:6px;
+    font-family:Arial, sans-serif;
+    font-size:16px;
+    background:var(--accent-soft);
+    border-radius:4px;
+    padding:12px 14px;
+    min-height:20px;
+  }
+  .result b{
+    color:var(--accent);
+  }
+  .formula{
+    font-family:Arial, sans-serif;
+    font-size:12.5px;
+    color:#888;
+    margin-top:10px;
+  }
+  .back-row{
+    margin-top:22px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+  }
+  .back-btn{
+    background:#fff;
+    color:var(--accent);
+    border:1px solid var(--accent);
+  }
+  .back-btn:hover{
+    background:var(--accent-soft);
+  }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <h1>How Far From University?</h1>
+  <p class="subtitle">Enter your position relative to the university (treated as the origin, 0, 0) to find the straight-line distance.</p>
+
+  <div class="row">
+    <label for="xValue">X distance (e.g. km):</label>
+    <input type="number" id="xValue" placeholder="e.g. 3" step="any">
+  </div>
+
+  <div class="row">
+    <label for="yValue">Y distance (e.g. km):</label>
+    <input type="number" id="yValue" placeholder="e.g. 4" step="any">
+  </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <div class="row">
+    <button onclick="calculateDistance()">Submit</button>
+  </div>
+
+  <div class="result" id="result"></div>
+  <div class="formula">Distance = &radic;(x&sup2; + y&sup2;)</div>
+
+  <div class="back-row">
+    <button class="back-btn" onclick="window.location.href='index.html'">&larr; Back</button>
+  </div>
+</div>
+
+<script>
+function calculateDistance() {
+  var xInput = document.getElementById("xValue").value;
+  var yInput = document.getElementById("yValue").value;
+  var resultBox = document.getElementById("result");
+  var errorBox = document.getElementById("errorMsg");
+
+  // --- Validation ---
+  errorBox.style.display = "none";
+  errorBox.innerHTML = "";
+  resultBox.innerHTML = "";
+
+  if (xInput.trim() === "" || yInput.trim() === "") {
+    errorBox.innerHTML = "Please enter both an X and a Y value.";
+    errorBox.style.display = "block";
+    return;
+  }
+
+  var x = parseFloat(xInput);
+  var y = parseFloat(yInput);
+
+  if (isNaN(x) || isNaN(y)) {
+    errorBox.innerHTML = "X and Y must be numbers.";
+    errorBox.style.display = "block";
+    return;
+  }
+
+  var distance = Math.sqrt(x * x + y * y);
+
+  resultBox.innerHTML =
+    "Distance from University = <b>" + distance.toFixed(2) + "</b>";
+}
+
+// allow pressing Enter in either field to submit
+document.getElementById("xValue").addEventListener("keyup", function (e) {
+  if (e.key === "Enter") calculateDistance();
+});
+document.getElementById("yValue").addEventListener("keyup", function (e) {
+  if (e.key === "Enter") calculateDistance();
+});
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () {});
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+body{
+    background-color: mistyblue;
+    font-family: "Times New Roman", serif;
+    margin: 30px;
+}
+
+h1{
+    text-align: center;
+}
+
+h2{
+    color: black;
+}
+
+hr{
+    border: 1px solid gray;
+}
+
+a{
+    color: blue;
+}

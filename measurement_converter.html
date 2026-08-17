@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measurement Converter</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f6e56">
+    <link rel="icon" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-180.png">
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f4f4f4;
+            margin:40px;
+        }
+
+        .container{
+            width:450px;
+            margin:auto;
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        h2{
+            text-align:center;
+        }
+
+        input, select, button{
+            width:100%;
+            padding:10px;
+            margin-top:10px;
+            font-size:16px;
+        }
+
+        button{
+            background:#007BFF;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#0056b3;
+        }
+
+        #result{
+            margin-top:20px;
+            font-size:20px;
+            font-weight:bold;
+            color:green;
+            text-align:center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Measurement Converter</h2>
+
+<input type="number" id="value" placeholder="Enter value">
+
+<select id="type">
+    <option value="cmToM">Centimeter → Meter</option>
+    <option value="mToCm">Meter → Centimeter</option>
+    <option value="kmToM">Kilometer → Meter</option>
+    <option value="mToKm">Meter → Kilometer</option>
+    <option value="cToF">Celsius → Fahrenheit</option>
+    <option value="fToC">Fahrenheit → Celsius</option>
+    <option value="sqmToSqft">Square Meter → Square Feet</option>
+    <option value="sqftToSqm">Square Feet → Square Meter</option>
+</select>
+
+<button onclick="convert()">Convert</button>
+
+<p id="result"></p>
+
+</div>
+
+<script>
+
+function convert(){
+
+    let value = parseFloat(document.getElementById("value").value);
+    let type = document.getElementById("type").value;
+    let answer = 0;
+
+    if(isNaN(value)){
+        document.getElementById("result").innerHTML = "Please enter a number.";
+        return;
+    }
+
+    switch(type){
+
+        case "cmToM":
+            answer = value / 100;
+            document.getElementById("result").innerHTML =
+            value + " cm = " + answer + " m";
+            break;
+
+        case "mToCm":
+            answer = value * 100;
+            document.getElementById("result").innerHTML =
+            value + " m = " + answer + " cm";
+            break;
+
+        case "kmToM":
+            answer = value * 1000;
+            document.getElementById("result").innerHTML =
+            value + " km = " + answer + " m";
+            break;
+
+        case "mToKm":
+            answer = value / 1000;
+            document.getElementById("result").innerHTML =
+            value + " m = " + answer + " km";
+            break;
+
+        case "cToF":
+            answer = (value * 9/5) + 32;
+            document.getElementById("result").innerHTML =
+            value + " °C = " + answer.toFixed(2) + " °F";
+            break;
+
+        case "fToC":
+            answer = (value - 32) * 5/9;
+            document.getElementById("result").innerHTML =
+            value + " °F = " + answer.toFixed(2) + " °C";
+            break;
+
+        case "sqmToSqft":
+            answer = value * 10.7639;
+            document.getElementById("result").innerHTML =
+            value + " m² = " + answer.toFixed(2) + " ft²";
+            break;
+
+        case "sqftToSqm":
+            answer = value / 10.7639;
+            document.getElementById("result").innerHTML =
+            value + " ft² = " + answer.toFixed(2) + " m²";
+            break;
+    }
+
+}
+
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () {});
+    });
+  }
+</script>
+
+</body>
+</html>

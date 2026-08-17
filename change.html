@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Change</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f6e56">
+    <link rel="icon" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-180.png">
+</head>
+<body>
+
+    <h1>Calculate Change</h1>
+
+    Enter Amount:
+    <input type="number" id="amount" placeholder="Enter amount">
+    <button onclick="calculate()">Submit</button>
+
+    <br><br>
+
+    <div id="result"></div>
+
+    <script>
+        function calculate() {
+
+            let amount = parseInt(document.getElementById("amount").value);
+
+            if (isNaN(amount) || amount < 0) {
+                document.getElementById("result").innerHTML = "Please enter a valid amount.";
+                return;
+            }
+
+            let money = [1000, 500, 100, 50, 20, 10, 5, 2, 1];
+
+            let output = "";
+
+            for (let i = 0; i < money.length; i++) {
+
+                let count = Math.floor(amount / money[i]);
+
+                if (count > 0) {
+                    output += count + " of ฿" + money[i] + "<br>";
+                }
+
+                amount = amount % money[i];
+            }
+
+            document.getElementById("result").innerHTML = output;
+        }
+    </script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () {});
+    });
+  }
+</script>
+
+</body>
+</html>
